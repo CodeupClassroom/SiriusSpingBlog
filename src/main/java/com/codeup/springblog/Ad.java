@@ -10,7 +10,28 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //set the field for the id
 
+    //Blank / default constructor
+    public Ad(){};
 
+    //Create constructor
+    public Ad(String title, String description, User owner, List<AdCategory> categories, List<AdImage> images) {
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+        this.categories = categories;
+        this.images = images;
+    }
+
+
+    //Update constructor
+    public Ad(long id, String title, String description, User owner, List<AdCategory> categories, List<AdImage> images) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+        this.categories = categories;
+        this.images = images;
+    }
 
     //move on down to make more fields
     @Column(nullable = false, length = 50) //NOT NULL length 100? varchar(100)?

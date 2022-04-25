@@ -1,5 +1,6 @@
 package com.codeup.springblog;
 
+import com.codeup.springblog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +10,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdController {
-    private final AdRepository adDao;
+    //Repositories below
+    private final AdRepository adDao; //I need to set up a property of the data access object..
+    private final UserRepository userDao;
 
-    public AdController(AdRepository adDao){
-        this.adDao = adDao;
+    //Services below
+    private final EmailService emailService;
+
+
+    public AdController(AdRepository adDao, UserRepository userDao, EmailService emailService){
+        this.adDao = adDao; //every time a controller is 'built' [instantiated], make sure you create on ad data access object. .
+        this.userDao = userDao;
+
+        this.emailService = emailService;
+
     }
 
     @GetMapping("/ads")
     public String getAd(Model model){
+
 
 
         model.addAttribute("ads", adDao.findAll());
@@ -51,7 +63,10 @@ public class AdController {
 
 
         // save the ad...
+        newAd.setOwner(userDao.getById(1L)); //Go into the DB - get my one user hardcoded style :D
+        emailService.prepareAndSend(newAd, "New ad created", "Your new Ad has been created on the Spring AdLister!");
         adDao.save(newAd);
+
 
         return "redirect:/ads";
     }
