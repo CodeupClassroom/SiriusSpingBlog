@@ -1,9 +1,11 @@
 package com.codeup.springblog.controllers;
 
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repositories.AdRepository;
 import com.codeup.springblog.repositories.UserRepository;
 import com.codeup.springblog.models.Ad;
 import com.codeup.springblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,9 @@ public class AdController {
 
     @GetMapping("/ads")
     public String getAd(Model model){
+      User loggedInUser=  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        System.out.println("Hello there! The logged in user's email is " + loggedInUser.getEmail() + ", and the logged in user's username is " + loggedInUser.getUsername());
 
 
 
